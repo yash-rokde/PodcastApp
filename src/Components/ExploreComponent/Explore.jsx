@@ -1,11 +1,12 @@
 import React from "react";
 import { Clock, Star, TrendingUp } from "lucide-react";
-import "./Explore.css"
+import "./Explore.css";
 
 const videoData = [
   {
     src: "https://www.w3schools.com/html/mov_bbb.mp4",
-    title: "🎧 The Ultimate Podcast Episode About React and Vite Integration in Modern Web Apps",
+    title:
+      "🎧 The Ultimate Podcast Episode About React and Vite Integration in Modern Web Apps",
     summary:
       "In this episode, we explore how to use React with Vite to create blazing-fast web applications. We'll discuss project setup, development best practices, and optimizing video performance. You'll learn how to structure your components, manage state, and deploy your app efficiently. Ideal for developers looking to improve frontend workflow and user experience.",
     duration: "45:32",
@@ -53,9 +54,9 @@ const Explore = () => {
 
         {videoData.map((video, index) => (
           <div
-          key={index}
-          className="flex flex-col md:flex-row gap-4 sm:gap-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl overflow-hidden backdrop-blur-sm hover:scale-[1.01] transition-transform duration-300"
-        >
+            key={index}
+            className="flex flex-col md:flex-row gap-4 sm:gap-6 bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-2xl overflow-hidden backdrop-blur-sm hover:scale-[1.01] transition-transform duration-300"
+          >
             {/* Thumbnail */}
             <div className="relative md:w-1/3">
               <video
@@ -96,7 +97,14 @@ const Explore = () => {
         ))}
       </div>
 
-      <div className="h-20"></div>
+      <div className="max-w-7xl mx-auto px-6 text-center py-2 mt-4">
+        <p className="text-gray-400  text-1xl font-bold pt-3">
+          © {new Date().getFullYear()} Podverse. All rights reserved.
+        </p>
+      </div>
+
+      {/* Bottom Spacing */}
+      <div className="h-10"></div>
     </div>
   );
 };

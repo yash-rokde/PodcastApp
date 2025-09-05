@@ -1,50 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Play, Search, Volume2, Clock, Star, TrendingUp, Menu, X  } from 'lucide-react';
-
+import React, { useState } from "react";
+import { Search, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import "./Navbar.css"
+import "./Navbar.css";
 
-const videoData = [
-  {
-    src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    title: '🎧 The Ultimate Podcast Episode About React and Vite Integration in Modern Web Apps',
-    summary: "In this episode, we explore how to use React with Vite to create blazing-fast web applications. We'll discuss project setup, development best practices, and optimizing video performance. You'll learn how to structure your components, manage state, and deploy your app efficiently. Ideal for developers looking to improve frontend workflow and user experience.",
-    duration: '45:32',
-    views: '234K',
-    rating: 4.8,
-    category: 'Development'
-  },
-  {
-    src: 'https://www.w3schools.com/html/movie.mp4',
-    title: 'Episode 2: Advanced Hooks in React',
-    summary: 'Dive deep into React hooks and how they can optimize your application. We cover useState, useEffect, custom hooks, and best practices for building scalable applications.',
-    duration: '38:15',
-    views: '189K',
-    rating: 4.7,
-    category: 'React'
-  },
-  {
-    src: 'https://www.w3schools.com/html/mov_bbb.mp4',
-    title: 'Episode 3: Styling React Components',
-    summary: 'Learn modern ways to style React components with Tailwind CSS, CSS modules, and styled-components for clean, maintainable code.',
-    duration: '42:18',
-    views: '156K',
-    rating: 4.9,
-    category: 'Styling'
-  },
-  {
-    src: 'https://www.w3schools.com/html/movie.mp4',
-    title: 'Episode 4: Performance Optimization',
-    summary: 'Techniques to optimize performance in React apps including memoization, lazy loading, and code splitting to keep your app fast and responsive.',
-    duration: '51:27',
-    views: '298K',
-    rating: 4.8,
-    category: 'Performance'
-  },
-];
-
-// Modern Navbar Component
-const Navbar = () => {
+const Navbar = ({ searchTerm, setSearchTerm }) => {
   const [active, setActive] = useState("Home");
   const [searchFocused, setSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -86,44 +45,47 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          {/* Desktop Actions */}
+          <div className="hidden md:flex items-center space-x-4">
             {/* Search */}
             <div
-              className={`hidden sm:flex items-center bg-gray-900/60 rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-300 ${
+              className={`flex items-center bg-gray-900/60 backdrop-blur-sm rounded-xl px-3 py-2 transition-all duration-300 w-[180px] md:w-[220px] ${
                 searchFocused
                   ? "ring-2 ring-purple-500/50 bg-gray-900/80"
                   : "hover:bg-gray-900/80"
               }`}
             >
-              <Search className="text-gray-400 w-5 h-5 mr-2 sm:mr-3" />
+              <Search className="text-gray-400 w-4 h-4 mr-2" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="bg-transparent text-white outline-none placeholder-gray-400 w-24 sm:w-40"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-transparent text-white text-sm outline-none placeholder-gray-400 w-full"
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
               />
             </div>
 
             {/* Guest Login */}
-            <button className="hidden sm:block bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-2xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25">
+            <button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-5 py-2.5 rounded-2xl font-medium text-base transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25">
               Guest Login
             </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-white"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-white"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
         {/* Mobile Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 bg-gray-900/90 rounded-xl p-3 space-y-2">
+          <div className="md:hidden mt-3 bg-gray-900/90 rounded-xl p-4 space-y-3">
+            {/* Links */}
             {links.map((link) => (
               <Link
                 key={link}
@@ -141,6 +103,29 @@ const Navbar = () => {
                 {link}
               </Link>
             ))}
+
+            {/* Search inside dropdown */}
+            <div
+              className={`flex items-center bg-gray-800/80 rounded-xl px-3 py-2 transition-all duration-300 ${
+                searchFocused ? "ring-2 ring-purple-500/50" : ""
+              }`}
+            >
+              <Search className="text-gray-400 w-4 h-4 mr-2" />
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="bg-transparent text-white text-sm outline-none placeholder-gray-400 w-full"
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
+              />
+            </div>
+
+            {/* Guest Login inside dropdown */}
+            <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2.5 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25">
+              Guest Login
+            </button>
           </div>
         )}
       </div>
@@ -148,4 +133,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar
+export default Navbar;
